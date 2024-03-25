@@ -3,8 +3,10 @@ package pl.mt.cookbook.user.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import pl.mt.cookbook.ProperPassword;
+import lombok.Data;
+import pl.mt.cookbook.validation.ProperPassword;
 
+@Data
 public class UserAddDto {
     @NotBlank
     @Size(min = 2, max = 255)
@@ -16,20 +18,4 @@ public class UserAddDto {
 //            message = "Hasło musi zawierać min. 1 małą i 1 dużą literę, 1 znak specjalny, 1 cyfrę")
     @ProperPassword
     private String password;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

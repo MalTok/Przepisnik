@@ -1,4 +1,4 @@
-package pl.mt.cookbook;
+package pl.mt.cookbook.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

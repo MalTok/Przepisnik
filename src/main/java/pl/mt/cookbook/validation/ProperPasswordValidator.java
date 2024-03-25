@@ -1,4 +1,4 @@
-package pl.mt.cookbook;
+package pl.mt.cookbook.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

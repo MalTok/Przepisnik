@@ -1,4 +1,4 @@
-package pl.mt.cookbook;
+package pl.mt.cookbook.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
