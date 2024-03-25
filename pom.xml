@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.mt</groupId>
-    <artifactId>ZADANIE_29_1</artifactId>
+    <artifactId>Przepisnik</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ZADANIE_26_1</name>
     <description>ZADANIE_26_1</description>
