@@ -13,6 +13,7 @@
                     Nazwa kategorii
                     <input type="text" class="form-control" th:field="*{name}" placeholder="ZUPY">
                 </label>
+                <p th:errors="*{name}" class="error">Błędna nazwa kategorii</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">
@@ -20,6 +21,7 @@
                     <input type="text" class="form-control" th:field="*{description}"
                            placeholder="Tradycyjne polskie zupy">
                 </label>
+                <p th:errors="*{description}" class="error">Błędny opis kategorii</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">

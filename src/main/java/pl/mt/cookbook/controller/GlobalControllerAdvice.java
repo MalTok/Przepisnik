@@ -1,4 +1,4 @@
-package pl.mt.cookbook;
+package pl.mt.cookbook.controller;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;

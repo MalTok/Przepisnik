@@ -17,18 +17,40 @@
         </div>
     </div>
     <p th:if="${updateMessage}" th:text="#{profile_updated}"></p>
-    <form th:action="@{/user/update}" action="/user/update" method="post" th:object="${user}">
+    <form th:action="@{/user/update/personal-data}" action="/user/update/personal-data" method="post" th:object="${userPersonal}">
         <div class="mb-3">
             <label class="form-label">
                 Imię
                 <input type="text" class="form-control" th:field="*{firstName}" placeholder="Jan">
             </label>
+            <p th:errors="*{firstName}" class="error">Błędne imię</p>
         </div>
         <div class="mb-3">
             <label class="form-label">
                 Nazwisko
                 <input type="text" class="form-control" th:field="*{lastName}"
                        placeholder="Kowalski">
+            </label>
+            <p th:errors="*{lastName}" class="error">Błędne nazwisko</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">
+                Data urodzenia
+                <input type="date" class="form-control" th:field="*{birthDate}">
+            </label>
+            <p th:errors="*{birthDate}" class="error">Błędna data urodzenia</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">
+                <input type="hidden" class="form-control" th:field="*{email}">
+            </label>
+        </div>
+        <button class="search-button" type="submit">AKTUALIZUJ DANE</button>
+    </form>
+    <form th:action="@{/user/update/password}" action="/user/update/password" method="post" th:object="${userPassword}">
+        <div class="mb-3">
+            <label class="form-label">
+                <input type="hidden" class="form-control" th:object="${userPersonal}">
             </label>
         </div>
         <div class="mb-3">
@@ -41,14 +63,24 @@
                 Nowe hasło
                 <input type="password" class="form-control" th:field="*{password}" placeholder="silneHasło123!">
             </label>
+        <p th:errors="*{password}" class="error">Błędne hasło</p>
+        </div>
+        <button class="search-button" type="submit">AKTUALIZUJ HASŁO</button>
+    </form>
+    <form th:action="@{/user/update/newsletter}" action="/user/update/newsletter" method="post" th:object="${userNewsletter}">
+        <div class="mb-3">
+            <label class="form-label">
+                <input type="hidden" class="form-control" th:field="*{email}">
+            </label>
         </div>
         <div class="mb-3">
             <label class="form-check-label">
                 Newsletter
                 <input type="checkbox" class="form-check-input" th:field="*{newsletter}">
             </label>
+            <p th:errors="*{newsletter}" class="error">Błędna opcja subskrypcji newslettera</p>
         </div>
-        <button class="search-button" type="submit">AKTUALIZUJ</button>
+        <button class="search-button" type="submit">AKTUALIZUJ NEWSLETTER</button>
     </form>
     <footer th:replace="~{fragment::footer}">Stopka</footer>
 </div>

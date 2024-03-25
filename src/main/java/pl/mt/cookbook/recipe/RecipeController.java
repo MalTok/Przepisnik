@@ -1,11 +1,10 @@
 package pl.mt.cookbook.recipe;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import pl.mt.cookbook.recipe.dto.RecipeDto;
 import pl.mt.cookbook.recipe.dto.RecipeShowDto;
 
@@ -45,9 +44,14 @@ public class RecipeController {
     }
 
     @PostMapping("/add")
-    public String add(RecipeDto recipeDto) {
-        Long id = recipeService.save(recipeDto);
-        return "redirect:/recipe/" + id;
+    public String add(@Valid @ModelAttribute("recipe") RecipeDto recipeDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("recipe", recipeDto);
+            return "recipe-form";
+        } else {
+            Long id = recipeService.save(recipeDto);
+            return "redirect:/recipe/" + id;
+        }
     }
 
     @GetMapping("/edit/{id}")
@@ -61,9 +65,16 @@ public class RecipeController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(@PathVariable Long id, RecipeDto recipeDto) {
-        recipeService.update(id, recipeDto);
-        return "redirect:/recipe/" + id;
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("recipe") RecipeDto recipeDto,
+                         BindingResult bindingResult,
+                         Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("recipe", recipeDto);
+            return "recipe-form-edit";
+        } else {
+            recipeService.update(id, recipeDto);
+            return "redirect:/recipe/" + id;
+        }
     }
 
     @PostMapping("/delete/{id}")
