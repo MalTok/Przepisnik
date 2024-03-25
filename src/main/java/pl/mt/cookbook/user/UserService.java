@@ -31,15 +31,22 @@ public class UserService {
 
     @Transactional
     public boolean save(UserAddDto userAddDto) {
+        Optional<User> userOptional = findByNickname(userAddDto.getNickname());
         if (
                 userAddDto.getEmail() == null || userAddDto.getPassword() == null ||
                         userAddDto.getEmail().isEmpty() || userAddDto.getPassword().isEmpty()
         ) {
             return false;
+        } else if (userOptional.isPresent()) {
+            return false;
         }
         User user = userAddDtoMapper.map(userAddDto);
         userRepository.save(user);
         return true;
+    }
+
+    public Optional<User> findByNickname(String nickname) {
+        return userRepository.findByNickname(nickname);
     }
 
     public List<UserDto> findAllButCurrentUser() {

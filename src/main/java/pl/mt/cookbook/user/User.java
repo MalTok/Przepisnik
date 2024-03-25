@@ -18,13 +18,22 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstName;
+
     private String lastName;
+
+    @Column(unique = true)
+    private String nickname;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
+
     @Column(unique = true)
     private String email;
+
     private String password;
+
     private boolean newsletter;
 
     @OneToMany(mappedBy = "user",

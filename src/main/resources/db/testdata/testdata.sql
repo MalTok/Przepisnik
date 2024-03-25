@@ -126,11 +126,11 @@ VALUES
     (3L, 7L);
 
 INSERT INTO app_user
-    (first_name, last_name, birth_date, email, password, newsletter)
+    (first_name, last_name, birth_date, nickname, email, password, newsletter)
 VALUES
-    ('Jan', 'Kowalski', '1994-12-11', 'admin@wp.pl', '{noop}hard', false),
-    ('Anna', 'Zawadzka', '2023-12-07', 'anka134@op.pl', '{noop}anka123', true),
-    ('Mikołaj', 'Grudzień', '1971-10-19', 'gwiazdoooor@swiety.com', '{bcrypt}$2a$10$4dWIrzbYv7vBk9NmV2wtR.dLD/UuzOeeBU0jVc/3Ch/X5xsV.LACW', false);
+    ('Jan', 'Kowalski', '1994-12-11', 'AdminJanek', 'admin@wp.pl', '{noop}hard', false),
+    ('Anna', 'Zawadzka', '2023-12-07', 'AnkaZ', 'anka134@op.pl', '{noop}anka123', true),
+    ('Mikołaj', 'Grudzień', '1971-10-19', 'gwiazdorek71','gwiazdoooor@swiety.com', '{bcrypt}$2a$10$4dWIrzbYv7vBk9NmV2wtR.dLD/UuzOeeBU0jVc/3Ch/X5xsV.LACW', false);
 
 INSERT INTO user_role
     (user_id, role)
