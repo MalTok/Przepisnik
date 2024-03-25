@@ -10,5 +10,6 @@
     <include file="0003-add_columns_to_table_app_user.xml" relativeToChangelogFile="true"/>
     <include file="0004-add_column_to_table_app_user.xml" relativeToChangelogFile="true"/>
     <include file="0005-create_table_user_role.xml" relativeToChangelogFile="true"/>
+    <include file="0006-add_constraints_to_table_app_user.xml" relativeToChangelogFile="true"/>
     <include file="testdata/testdata.sql" relativeToChangelogFile="true" context="dev"/>
 </databaseChangeLog>

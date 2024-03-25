@@ -5,9 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.mt.cookbook.user.dto.UserCredentialsDto;
-import pl.mt.cookbook.user.dto.UserDto;
-import pl.mt.cookbook.user.dto.UserEditDto;
+import pl.mt.cookbook.user.dto.*;
+import pl.mt.cookbook.user.mapper.UserAddDtoMapper;
 import pl.mt.cookbook.user.mapper.UserCredentialsDtoMapper;
 import pl.mt.cookbook.user.mapper.UserDtoMapper;
 
@@ -19,23 +18,26 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
     private final UserDtoMapper userDtoMapper;
+    private final UserAddDtoMapper userAddDtoMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserDtoMapper userDtoMapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserDtoMapper userDtoMapper, UserAddDtoMapper userAddDtoMapper,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userDtoMapper = userDtoMapper;
+        this.userAddDtoMapper = userAddDtoMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
-    public boolean save(UserDto userDto) {
+    public boolean save(UserAddDto userAddDto) {
         if (
-                userDto.getEmail() == null || userDto.getPassword() == null ||
-                        userDto.getEmail().isEmpty() || userDto.getPassword().isEmpty()
+                userAddDto.getEmail() == null || userAddDto.getPassword() == null ||
+                        userAddDto.getEmail().isEmpty() || userAddDto.getPassword().isEmpty()
         ) {
             return false;
         }
-        User user = userDtoMapper.map(userDto);
+        User user = userAddDtoMapper.map(userAddDto);
         userRepository.save(user);
         return true;
     }
@@ -50,18 +52,33 @@ public class UserService {
     }
 
     @Transactional
-    public boolean update(UserEditDto userEditDto) {
-        Optional<User> usernameOptional = findByEmail(userEditDto.getEmail());
+    public void updateData(UserEditPersonalDto userEditPersonalDto) {
+        Optional<User> usernameOptional = findByEmail(userEditPersonalDto.getEmail());
         if (usernameOptional.isPresent()) {
             User user = usernameOptional.get();
-            user.setFirstName(userEditDto.getFirstName());
-            user.setLastName(userEditDto.getLastName());
-            String encodedPassword = passwordEncoder.encode(userEditDto.getPassword());
-            user.setPassword(encodedPassword);
-            user.setNewsletter(userEditDto.isNewsletter());
-            return true;
+            user.setFirstName(userEditPersonalDto.getFirstName());
+            user.setLastName(userEditPersonalDto.getLastName());
+            user.setBirthDate(userEditPersonalDto.getBirthDate());
         }
-        return false;
+    }
+
+    @Transactional
+    public void updatePassword(UserEditPasswordDto userEditPasswordDto) {
+        Optional<User> usernameOptional = findByEmail(userEditPasswordDto.getEmail());
+        if (usernameOptional.isPresent()) {
+            User user = usernameOptional.get();
+            String encodedPassword = passwordEncoder.encode(userEditPasswordDto.getPassword());
+            user.setPassword(encodedPassword);
+        }
+    }
+
+    @Transactional
+    public void updateNewsletter(UserEditNewsletterDto userEditNewsletterDto) {
+        Optional<User> usernameOptional = findByEmail(userEditNewsletterDto.getEmail());
+        if (usernameOptional.isPresent()) {
+            User user = usernameOptional.get();
+            user.setNewsletter(userEditNewsletterDto.isNewsletter());
+        }
     }
 
     public Optional<User> findByEmail(String email) {

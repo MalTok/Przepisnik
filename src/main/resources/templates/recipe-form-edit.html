@@ -10,15 +10,27 @@
         <form th:action="@{|/recipe/update/${recipe.id}|}" method="post" th:object="${recipe}">
             <div class="mb-3">
                 <label class="form-label">
+                    <input type="hidden" class="form-control" th:field="*{id}">
+                </label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">
+                    <input type="hidden" class="form-control" th:field="*{dateAdded}">
+                </label>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">
                     Tytuł przepisu
                     <input type="text" class="form-control" th:field="*{title}" placeholder="Rosół">
                 </label>
+                <p th:errors="*{title}" class="error">Błędny tytuł</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">
                     Krótki opis
                     <input type="text" class="form-control" th:field="*{description}" placeholder="Staropolski rosół z kury">
                 </label>
+                <p th:errors="*{description}" class="error">Błędny opis</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">
@@ -27,30 +39,35 @@
                         <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}">Kategoria</option>
                     </select>
                 </label>
+                <p th:errors="*{categoryIds}" class="error">Błędna kategoria</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">
                     Ilość porcji
                     <input type="number" min="0" step="1" class="form-control" th:field="*{portion}" placeholder="3">
                 </label>
+                <p th:errors="*{portion}" class="error">Błędna ilość porcji</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">
                     Składniki
                     <textarea class="form-control" th:field="*{ingredients}" placeholder="Woda-2 l;Kura-1 szt;"></textarea>
                 </label>
+                <p th:errors="*{ingredients}" class="error">Błędne składniki</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">
                     Przygotowanie
                     <textarea class="form-control" th:field="*{preparation}" placeholder="Do garnka włóż..."></textarea>
                 </label>
+                <p th:errors="*{preparation}" class="error">Błędne przgotowanie</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">
                     Wskazówki
                     <textarea class="form-control" th:field="*{hints}" placeholder="Kurkuma doda rosołowi koloru"></textarea>
                 </label>
+                <p th:errors="*{hints}" class="error">Błędne wskazówki</p>
             </div>
             <div class="mb-3">
                 <label class="form-label">

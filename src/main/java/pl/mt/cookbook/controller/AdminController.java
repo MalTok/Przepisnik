@@ -1,4 +1,4 @@
-package pl.mt.cookbook;
+package pl.mt.cookbook.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
