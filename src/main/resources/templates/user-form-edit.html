@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Rejestracja użytkownika</title>
+    <title>Edycja profilu</title>
     <link th:replace="~{fragment::bootstrap}">
     <link th:replace="~{fragment::styles-css}">
     <script th:replace="~{fragment::fontawesome-script}"></script>
@@ -16,7 +16,8 @@
             <div th:replace="~{fragment::main-bar-text}"></div>
         </div>
     </div>
-    <form th:action="@{/register}" action="/register" method="post" th:object="${user}">
+    <p th:if="${updateMessage}" th:text="#{profile_updated}"></p>
+    <form th:action="@{/user/update}" action="/user/update" method="post" th:object="${user}">
         <div class="mb-3">
             <label class="form-label">
                 Imię
@@ -32,19 +33,12 @@
         </div>
         <div class="mb-3">
             <label class="form-label">
-                Data urodzenia
-                <input type="date" class="form-control" th:field="*{birthDate}">
+                <input type="hidden" class="form-control" th:field="*{email}">
             </label>
         </div>
         <div class="mb-3">
             <label class="form-label">
-                *Email (login)
-                <input type="email" class="form-control" th:field="*{email}" placeholder="jan@kowalski.pl">
-            </label>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">
-                *Hasło
+                Nowe hasło
                 <input type="password" class="form-control" th:field="*{password}" placeholder="silneHasło123!">
             </label>
         </div>
@@ -54,9 +48,8 @@
                 <input type="checkbox" class="form-check-input" th:field="*{newsletter}">
             </label>
         </div>
-        <button class="search-button" type="submit">ZAREJESTRUJ</button>
+        <button class="search-button" type="submit">AKTUALIZUJ</button>
     </form>
-    <p>* pola obowiązkowe</p>
     <footer th:replace="~{fragment::footer}">Stopka</footer>
 </div>
 <script th:replace="~{fragment::bootstrap-script}"></script>

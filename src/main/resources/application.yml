@@ -11,5 +11,3 @@ spring:
       ddl-auto: validate
   liquibase:
     change-log: classpath:/db/master.xml
-  messages:
-    basename: messages/messages

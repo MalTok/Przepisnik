@@ -21,7 +21,7 @@ class HomeController {
     public String home(Model model) {
         List<RecipeDto> recipeList = recipeService.findAll();
         if (recipeList.isEmpty()) {
-            model.addAttribute("emptyMessage", "Brak przepisów.");
+            model.addAttribute("emptyMessage", true);
         }
         model.addAttribute("recipeList", recipeList);
         return "index";
@@ -32,7 +32,8 @@ class HomeController {
                          Model model) {
         List<RecipeDto> recipeList = recipeService.findByTitleContainingWord(word);
         if (recipeList.isEmpty()) {
-            model.addAttribute("emptyMessage", "Nie znaleziono żadnych przepisów zawierających: " + word);
+            model.addAttribute("searchMessage", true);
+            model.addAttribute("searchedWord", word);
         }
         model.addAttribute("recipeList", recipeList);
         return "search-result";
@@ -42,7 +43,7 @@ class HomeController {
     public String best(Model model) {
         List<RecipeDto> recipeList = recipeService.findAllSortedByLikes();
         if (recipeList.isEmpty()) {
-            model.addAttribute("emptyMessage", "Brak przepisów.");
+            model.addAttribute("emptyMessage", true);
         }
         model.addAttribute("recipeList", recipeList);
         return "best-recipes";

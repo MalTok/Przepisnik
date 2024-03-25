@@ -9,27 +9,39 @@
     <div class="container">
         <table class="table">
             <thead>
-                <tr>
-                    <th scope="col">Lp.</th>
-                    <th scope="col">Imię</th>
-                    <th scope="col">Nazwisko</th>
-                    <th scope="col">Data urodzenia</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Nesletter</th>
-                </tr>
+            <tr>
+                <th scope="col">Lp.</th>
+                <th scope="col">Imię</th>
+                <th scope="col">Nazwisko</th>
+                <th scope="col">Data urodzenia</th>
+                <th scope="col">Email</th>
+                <th scope="col">Newsletter</th>
+                <th scope="col">Rola</th>
+                <th>Admin</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="user, status: ${users}">
-                    <td th:text="${status.count}">1</td>
-                    <td th:text="${user.firstName}">Jan</td>
-                    <td th:text="${user.lastName}">Kowalski</td>
-                    <td th:text="${#dates.format(user.birthDate, 'yyyy-MM-dd')}">1994-12-11</td>
-                    <td th:text="${user.email}">jankowal@example.com</td>
-                    <td th:text="${user.newsletter == true ? 'TAK' : 'NIE'}">TAK</td>
-                </tr>
+            <tr th:each="user, status: ${users}">
+                <td th:text="${status.count}">1</td>
+                <td th:text="${user.firstName}">Jan</td>
+                <td th:text="${user.lastName}">Kowalski</td>
+                <td th:text="${#dates.format(user.birthDate, 'yyyy-MM-dd')}">1994-12-11</td>
+                <td th:text="${user.email}">jankowal@example.com</td>
+                <td th:text="${user.newsletter == true ? 'TAK' : 'NIE'}">TAK</td>
+                <td th:text="${user.roles}"></td>
+                <td class="role-cell" >
+                    <form th:action="@{|/admin/add/${user.email}|}" method="post">
+                        <button class="role-button" type="submit">MIANUJ</button>
+                    </form>
+                    <span> | </span>
+                    <form th:action="@{|/admin/remove/${user.email}|}" method="post">
+                        <button class="role-button" type="submit">USUŃ</button>
+                    </form>
+                </td>
+            </tr>
             </tbody>
         </table>
-        <p th:text="${message}"></p>
+        <p th:if="${message}" th:text="#{no_users}">Brak użytkowników w bazie.</p>
     </div>
 </main>
 </body>

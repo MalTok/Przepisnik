@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Logowanie</title>
+    <link th:replace="~{fragment::bootstrap}">
+    <link th:replace="~{fragment::styles-css}">
+    <script th:replace="~{fragment::fontawesome-script}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="main-header-container">
+        <div th:replace="~{fragment::pic-top}"></div>
+        <div class=main-bar>
+            <div th:replace="~{fragment::main-bar-logo}"></div>
+            <div th:replace="~{fragment::main-bar-text}"></div>
+        </div>
+    </div>
+    <div th:if="${registrationSuccess}">
+        <p class="success-message" th:text="#{registration_success}"></p>
+    </div>
+    <i class="fa-solid fa-user-lock fa-5x"></i>
+    <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label class="form-label">
+                Login (Twój email)
+                <input type="email" class="form-control" name="username" placeholder="jan@kowalski.pl">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">
+                Hasło
+                <input type="password" class="form-control" name="password" placeholder="silneHasło123!">
+            </label>
+        </div>
+        <button class="search-button" type="submit">ZALOGUJ</button>
+    </form>
+    <footer th:replace="~{fragment::footer}">Stopka</footer>
+</div>
+<script th:replace="~{fragment::bootstrap-script}"></script>
+</body>
+</html>

@@ -1,8 +1,9 @@
-package pl.mt.cookbook.user;
+package pl.mt.cookbook.user.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.Set;
 
 public class UserDto {
     private String firstName;
@@ -10,7 +11,9 @@ public class UserDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
     private String email;
+    private String password;
     private boolean newsletter;
+    private Set<String> roles;
 
     public String getFirstName() {
         return firstName;
@@ -50,5 +53,21 @@ public class UserDto {
 
     public void setNewsletter(boolean newsletter) {
         this.newsletter = newsletter;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 }

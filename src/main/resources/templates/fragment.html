@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link th:fragment="bootstrap" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link th:fragment="styles-css" rel="stylesheet" type="text/css" href="../static/styles/styles.css" th:href="@{/styles/styles.css}">
+</head>
 <body>
 <header th:fragment="header">
     <div class="main-header-container">
-        <div>
-            <a th:href="@{/}" href="/"><img class="bg-pic-top" th:src="@{/pictures/app/bg-top.jpg}"
-                                            src="/pictures/app/bg-top.jpg "
-                                            alt="Zdjęcie talerza z potrawą na turkusowym tle"></a>
+        <div th:replace="~{fragment::pic-top}"></div>
+        <div class="user-panel">
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <a th:href="@{/logout}" href="/logout">Wyloguj</a>
+                <span> | </span>
+                <a th:href="@{/user/update}" href="/user/update">Edytuj profil</a>
+            </div>
+            <div th:unless="${#authorization.expression('isAuthenticated()')}">
+                <a th:href="@{/login}" href="/login">Zaloguj</a>
+                <span> | </span>
+                <a th:href="@{/register}" href="/register">Załóż konto</a>
+            </div>
         </div>
         <div class="main-bar">
-            <div class="main-bar-logo">
-                <a th:href="@{/}" href="/"><img th:src="@{/pictures/app/symbol-food-service.jpg}"
-                                                src="/pictures/app/symbol-food-service.jpg"
-                                                alt="Logo talerz z widelcem i nożem"></a>
-            </div>
-            <div class="main-bar-text">
-                <p class="app-name">Przepiśnik</p>
-            </div>
+            <div th:replace="~{fragment::main-bar-logo}"></div>
+            <div th:replace="~{fragment::main-bar-text}"></div>
             <div class="main-bar-nav">
                 <div class="bar-nav-button">
                     <a th:href="@{/}" href="/"><input type="button" value="STRONA GŁÓWNA"></a>
@@ -30,16 +37,26 @@
                 <div class="bar-nav-button">
                     <a th:href="@{/category/remove}" href="/categor/remove"><input type="button" value="USUŃ KATEGORIĘ"></a>
                 </div>
-                <div class="bar-nav-button">
-                    <a th:href="@{/user/add}" href="/user/add"><input type="button" value="DODAJ UŻYTKOWNIKA"></a>
-                </div>
-                <div class="bar-nav-button">
-                    <a th:href="@{/user/show-all}" href="/user/show-all"><input type="button" value="WYŚWIETL UŻYTKOWNIKÓW"></a>
+                <div class="bar-nav-button" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <a th:href="@{/admin/show-all}" href="/admin/show-all"><input type="button" value="WYŚWIETL UŻYTKOWNIKÓW"></a>
                 </div>
             </div>
         </div>
     </div>
 </header>
+<div th:fragment="pic-top">
+    <a th:href="@{/}" href="/"><img class="bg-pic-top" th:src="@{/pictures/app/bg-top.jpg}"
+                                    src="/pictures/app/bg-top.jpg "
+                                    alt="Zdjęcie talerza z potrawą na turkusowym tle"></a>
+</div>
+<div th:fragment="main-bar-logo" class="main-bar-logo">
+    <a th:href="@{/}" href="/"><img th:src="@{/pictures/app/symbol-food-service.jpg}"
+                                    src="/pictures/app/symbol-food-service.jpg"
+                                    alt="Logo talerz z widelcem i nożem"></a>
+</div>
+<div th:fragment="main-bar-text" class="main-bar-text">
+    <p class="app-name">Przepiśnik</p>
+</div>
 <div th:fragment="main-bar">
     <div>
         <p>Witaj w aplikacji!</p>
@@ -80,7 +97,9 @@
     <h6 th:text="${filteredCategory.description}">Opis kategorii</h6>
 </div>
 <div th:fragment="recipe-preview">
-    <p th:if="${emptyMessage}" th:text="#{no_recipes}">Brak przepisów</p>
+    <p th:if="${emptyMessage}" th:text="#{empty_recipes_list}"></p>
+    <p th:if="${categoryMessage}" th:text="#{no_recipes}"></p>
+    <p th:if="${searchMessage}" th:text="|#{search_failure} ${searchedWord}|"></p>
     <div class="recipe-preview-container">
         <div class="recipe-preview" th:each="recipe: ${recipeList}">
             <div>
@@ -134,5 +153,9 @@
         </div>
     </div>
 </footer>
+<script th:fragment="bootstrap-script" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script th:fragment="fontawesome-script" src="https://kit.fontawesome.com/136cb70485.js" crossorigin="anonymous"></script>
 </body>
 </html>

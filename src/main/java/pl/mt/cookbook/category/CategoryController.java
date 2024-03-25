@@ -31,7 +31,7 @@ public class CategoryController {
         List<Long> recipeIds = categoryPreviewDto.getRecipeIds();
         List<RecipeDto> recipeList = recipeService.findAllByIdIn(recipeIds);
         if (recipeList.isEmpty()) {
-            model.addAttribute("emptyMessage", true);
+            model.addAttribute("categoryMessage", true);
         }
         model.addAttribute("filteredCategory", categoryPreviewDto);
         model.addAttribute("recipeList", recipeList);

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "app_user")
@@ -16,13 +17,24 @@ public class User {
     private Date birthDate;
     @Column(unique = true)
     private String email;
+    private String password;
     private boolean newsletter;
+
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
+    private Set<UserRole> roles;
 
     public User() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -58,6 +70,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public boolean isNewsletter() {
         return newsletter;
     }
@@ -76,5 +96,13 @@ public class User {
                 ", email='" + email + '\'' +
                 ", newsletter=" + newsletter +
                 '}';
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
     }
 }
