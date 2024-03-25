@@ -31,6 +31,13 @@
             </label>
             <p th:errors="*{password}" class="error">Błędne hasło</p>
         </div>
+        <div class="mb-3">
+            <label class="form-label">
+                *Nick - publiczna nazwa użytkownika (maksymalnie 100 znaków, wielkość liter ma znaczenie, nazwy nie będzie można zmienić!)
+                <input type="text" class="form-control" th:field="*{nickname}" placeholder="Smakosz2024">
+            </label>
+            <p th:errors="*{nickname}" class="error">Błędna nazwa użytkownika</p>
+        </div>
         <button class="search-button" type="submit">ZAREJESTRUJ</button>
     </form>
     <p>* pola obowiązkowe</p>
