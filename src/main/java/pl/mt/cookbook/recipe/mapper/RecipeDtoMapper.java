@@ -1,5 +1,8 @@
 package pl.mt.cookbook.recipe.mapper;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pl.mt.cookbook.category.Category;
 import pl.mt.cookbook.category.CategoryRepository;
@@ -8,6 +11,8 @@ import pl.mt.cookbook.ingredient.IngredientRepository;
 import pl.mt.cookbook.recipe.IngredientAmount;
 import pl.mt.cookbook.recipe.Recipe;
 import pl.mt.cookbook.recipe.dto.RecipeDto;
+import pl.mt.cookbook.user.User;
+import pl.mt.cookbook.user.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,10 +23,14 @@ import java.util.Optional;
 public class RecipeDtoMapper {
     private final CategoryRepository categoryRepository;
     private final IngredientRepository ingredientRepository;
+    private final UserRepository userRepository;
 
-    public RecipeDtoMapper(CategoryRepository categoryRepository, IngredientRepository ingredientRepository) {
+    public RecipeDtoMapper(CategoryRepository categoryRepository,
+                           IngredientRepository ingredientRepository,
+                           UserRepository userRepository) {
         this.categoryRepository = categoryRepository;
         this.ingredientRepository = ingredientRepository;
+        this.userRepository = userRepository;
     }
 
     public Recipe map(RecipeDto recipeDto) {
@@ -40,8 +49,18 @@ public class RecipeDtoMapper {
         recipe.setHints(recipeDto.getHints());
         recipe.setImg(recipeDto.getImg());
         recipe.setDateAdded(LocalDateTime.now());
+        recipe.setAddedByNickname(getNickname());
         recipe.setLikes(0);
         return recipe;
+    }
+
+    private String getNickname() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = userDetails.getUsername();
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        return userOptional
+                .map(User::getNickname)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<IngredientAmount> getIngredients(RecipeDto recipeDto, Recipe recipe) {

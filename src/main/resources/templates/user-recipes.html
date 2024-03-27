@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title th:text="|Przepisy użytkownika: ${nickname}|">Przepisy użytkownika</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div th:replace="~{fragment::main-bar}">
+    </div>
+    <br/>
+    <div>
+        <h2 th:text="|Przepisy użytkownika: ${nickname}|">Przepisy użytkownika</h2>
+    </div>
+    <br/>
+    <div th:replace="~{fragment::recipe-preview}">
+    </div>
+</main>
+</body>
+</html>

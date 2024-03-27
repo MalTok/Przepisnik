@@ -12,4 +12,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findAllSortedByLikes();
 
     List<Recipe> findAllByIdIn(List<Long> ids);
+
+    List<Recipe> findAllByAddedByNickname(String nickname);
 }

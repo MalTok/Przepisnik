@@ -102,4 +102,8 @@ public class RecipeService {
     public List<RecipeDto> findAllByIdIn(List<Long> ids) {
         return recipeDtoMapper.maptoDtos(recipeRepository.findAllByIdIn(ids));
     }
+
+    public List<RecipeDto> findAllAddedByUser(String nickname) {
+        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByAddedByNickname(nickname));
+    }
 }

@@ -88,4 +88,15 @@ public class RecipeController {
         recipeService.like(id);
         return "redirect:/recipe/" + id;
     }
+
+    @GetMapping("/{nickname}/all")
+    public String showUserRecipes(Model model, @PathVariable String nickname) {
+        List<RecipeDto> recipeList = recipeService.findAllAddedByUser(nickname);
+        if (recipeList.isEmpty()) {
+            model.addAttribute("emptyMessage", true);
+        }
+        model.addAttribute("recipeList", recipeList);
+        model.addAttribute("nickname", nickname);
+        return "user-recipes";
+    }
 }

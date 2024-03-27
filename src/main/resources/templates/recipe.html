@@ -78,6 +78,10 @@
                 <p th:text="|Data dodania: ${#temporals.format(recipe.dateAdded, 'yyyy-MM-dd HH:mm:ss')}|">Data
                     dodania</p>
             </div>
+            <div class="recipe-nickname">
+                <p>Dodany przez:</p>
+                <a th:href="@{|/recipe/${recipe.addedByNickname}/all|}"><span th:text="${recipe.addedByNickname}">Nickname</span></a>
+            </div>
         </div>
     </div>
 </main>
