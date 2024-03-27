@@ -19,18 +19,30 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
+
     private String description;
+
     private int portion;
+
     @OneToMany(mappedBy = "recipe", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private List<IngredientAmount> ingredients = new ArrayList<>();
+
     @Column(columnDefinition = "TEXT")
     private String preparation;
+
     private String hints;
+
     private String img;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateAdded;
+
+    private String addedByNickname;
+
     private int likes;
+
     @ManyToMany
     private List<Category> categories = new ArrayList<>();
 

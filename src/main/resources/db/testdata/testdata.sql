@@ -15,7 +15,7 @@ VALUES
     ('Olej roślinny');
 
 INSERT INTO recipe
-(title, description, portion, preparation, hints, img, date_added, likes)
+(title, description, portion, preparation, hints, img, date_added, added_by_nickname, likes)
 VALUES
     ('Krem sułtański',
      'Kultowy deser PRL',
@@ -29,6 +29,7 @@ VALUES
      po tym czasie posypać bezami i rodzynkami.',
      'krem-sultanski.jpg',
      '2023-11-27 11:50:00',
+     'AnkaZ',
      0),
     ('Placki ziemniaczane',
      'Tradycyjna potrawa lubiana przez dużych i małych',
@@ -40,6 +41,7 @@ VALUES
      'Podawać z: sosem pieczarkowym / grzybowym / ajwarem / gulaszem / cukrem lub cukier + oddzielnie gęsta śmietana',
      'placki-ziemniaczane.jpg',
      '2023-11-28 20:26:20',
+     'AnkaZ',
      5);
 
 INSERT INTO ingredient_amount
@@ -92,7 +94,7 @@ VALUES
     ('Pieprz');
 
 INSERT INTO recipe
-(title, description, portion, preparation, hints, img, date_added, likes)
+(title, description, portion, preparation, hints, img, date_added, added_by_nickname, likes)
 VALUES
     ('Sałatka grecka',
      'Idealna przekąska lub samodzielne danie',
@@ -105,6 +107,7 @@ VALUES
      'Nie trzeba dodawać soli - feta jest wystarczająco słona.',
      'salatka-grecka.jpg',
      '2023-12-02 11:15:37',
+     'AdminJanek',
      0);
 
 INSERT INTO ingredient_amount

@@ -193,6 +193,12 @@ i {
     height: 180px;
 }
 
+.recipe-nickname {
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+}
+
 .like-button-container {
     display: flex;
     flex-direction: row;

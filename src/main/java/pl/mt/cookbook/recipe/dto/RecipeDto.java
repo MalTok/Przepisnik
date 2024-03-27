@@ -15,27 +15,37 @@ import java.util.List;
 @AllArgsConstructor
 public class RecipeDto {
     private Long id;
+
     @NotBlank
     @Size(min = 2, max = 255)
     private String title;
+
     @NotBlank
     @Size(min = 2, max = 500)
     private String description;
+
     @Positive
     private int portion;
+
     @NotBlank
     @Pattern(regexp = "^([^;-]+-[^;-]+;)+$",
             message = "Składniki rozdzielone średnikami (;), nazwa i ilość rozdzielone myślnikiem (-)")
     private String ingredients;
+
     @NotBlank
     @Size(min = 2, max = 8000)
     private String preparation;
+
     @NotBlank
     @Size(min = 2, max = 2000)
     private String hints;
+
     private String img;
+
     private LocalDateTime dateAdded;
+
     private int likes;
+
     @NotEmpty(message = "Należy wybrać co najmniej jedną kategorię")
     private List<Long> categoryIds;
 }

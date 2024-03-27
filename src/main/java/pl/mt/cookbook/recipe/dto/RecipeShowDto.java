@@ -12,13 +12,25 @@ import java.util.List;
 @NoArgsConstructor
 public class RecipeShowDto {
     private Long id;
+
     private String title;
+
     private String description;
+
     private int portion;
+
     private List<Long> ingredientIds;
+
     private String preparation;
+
     private String hints;
+
     private String img;
+
     private LocalDateTime dateAdded;
+
+    private String addedByNickname;
+
     private int likes;
+
 }
