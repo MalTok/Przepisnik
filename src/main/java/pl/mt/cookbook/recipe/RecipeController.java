@@ -89,6 +89,12 @@ public class RecipeController {
         return "redirect:/recipe/" + id;
     }
 
+    @GetMapping("/unlike/{id}")
+    public String unlike(@PathVariable Long id) {
+        recipeService.unlike(id);
+        return "redirect:/recipe/" + id;
+    }
+
     @GetMapping("/{nickname}/all")
     public String showUserRecipes(Model model, @PathVariable String nickname) {
         List<RecipeDto> recipeList = recipeService.findAllAddedByUser(nickname);

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.mt.cookbook.category.Category;
+import pl.mt.cookbook.user.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -41,10 +42,11 @@ public class Recipe {
 
     private String addedByNickname;
 
-    private int likes;
-
     @ManyToMany
     private List<Category> categories = new ArrayList<>();
+
+    @ManyToMany
+    private List<User> users;
 
     public void addCategory(Category category) {
         categories.add(category);

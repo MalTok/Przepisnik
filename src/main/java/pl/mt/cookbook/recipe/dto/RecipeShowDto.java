@@ -33,4 +33,5 @@ public class RecipeShowDto {
 
     private int likes;
 
+    private List<String> likedByEmail;
 }

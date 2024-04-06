@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="0009" author="mt">
+        <createTable tableName="recipe_users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="recipe_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_recipe_users_recipes_id__recipe_id"
+                             referencedTableName="recipe"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="users_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_recipe_users_users_id__app_user_id"
+                             referencedTableName="app_user"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

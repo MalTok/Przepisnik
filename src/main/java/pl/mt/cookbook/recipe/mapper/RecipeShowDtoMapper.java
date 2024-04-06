@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.mt.cookbook.recipe.IngredientAmount;
 import pl.mt.cookbook.recipe.Recipe;
 import pl.mt.cookbook.recipe.dto.RecipeShowDto;
+import pl.mt.cookbook.user.User;
 
 import java.util.List;
 
@@ -24,8 +25,20 @@ public class RecipeShowDtoMapper {
         recipeShowDto.setHints(recipe.getHints());
         recipeShowDto.setImg(recipe.getImg());
         recipeShowDto.setDateAdded(recipe.getDateAdded());
-        recipeShowDto.setLikes(recipe.getLikes());
         recipeShowDto.setAddedByNickname(recipe.getAddedByNickname());
+        recipeShowDto.setLikes(getLikesListSize(recipe));
+        recipeShowDto.setLikedByEmail(getLikedByUsersList(recipe));
         return recipeShowDto;
+    }
+
+    private int getLikesListSize(Recipe recipe) {
+        return recipe.getUsers().size();
+    }
+
+    private List<String> getLikedByUsersList(Recipe recipe) {
+        return recipe.getUsers()
+                .stream()
+                .map(User::getEmail)
+                .toList();
     }
 }

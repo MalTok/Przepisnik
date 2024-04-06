@@ -35,11 +35,18 @@
                 <div class="main-bar-nav">
                     <div class="like-button-container">
                         <div>
+                            <p class="recipe-likes" th:text="${recipe.likes}"></p>
+                        </div>
+                        <div th:unless="${recipe.likedByEmail.contains(#authentication.name)}">
                             <a th:href="@{|/recipe/like/${recipe.id}|}">
-                                <img th:unless="${recipe.likes > 0}" class="like-button-recipe"
+                                <img class="like-button-recipe"
                                      th:src="@{/pictures/app/like-button.png}" src="/pictures/app/like-button.png"
                                      alt="Serce w kole na czarnym tle">
-                                <img th:if="${recipe.likes > 0}" class="like-button-recipe"
+                            </a>
+                        </div>
+                        <div th:if="${recipe.likedByEmail.contains(#authentication.name)}">
+                            <a th:href="@{|/recipe/unlike/${recipe.id}|}">
+                                <img class="like-button-recipe"
                                      th:src="@{/pictures/app/like-button-liked.png}"
                                      src="/pictures/app/like-button-liked.png" alt="Serce w kole na turkusowym tle">
                             </a>

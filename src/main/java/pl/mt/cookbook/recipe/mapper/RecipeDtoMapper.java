@@ -50,7 +50,7 @@ public class RecipeDtoMapper {
         recipe.setImg(recipeDto.getImg());
         recipe.setDateAdded(LocalDateTime.now());
         recipe.setAddedByNickname(getNickname());
-        recipe.setLikes(0);
+        recipe.setUsers(new ArrayList<>());
         return recipe;
     }
 
@@ -103,7 +103,8 @@ public class RecipeDtoMapper {
                 recipe.getHints(),
                 recipe.getImg(),
                 recipe.getDateAdded(),
-                recipe.getLikes(),
+                recipe.getUsers().size(),
+                getLikedByUsersList(recipe),
                 getCategoryIdList(recipe)
         );
     }
@@ -130,6 +131,13 @@ public class RecipeDtoMapper {
     public List<RecipeDto> maptoDtos(List<Recipe> recipeList) {
         return recipeList.stream()
                 .map(this::mapRecipeToDto)
+                .toList();
+    }
+
+    private List<String> getLikedByUsersList(Recipe recipe) {
+        return recipe.getUsers()
+                .stream()
+                .map(User::getEmail)
                 .toList();
     }
 }
