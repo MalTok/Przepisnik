@@ -32,7 +32,6 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/").permitAll()
         );
         http.csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()));
-//        http.headers().frameOptions().sameOrigin(); DEPRECATED od wersji 6.1
         http.headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         return http.build();
     }

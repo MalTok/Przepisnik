@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.mt.cookbook.recipe.Recipe;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -41,4 +43,7 @@ public class User {
             fetch = FetchType.EAGER,
             orphanRemoval = true)
     private Set<UserRole> roles;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    private List<Recipe> recipe;
 }

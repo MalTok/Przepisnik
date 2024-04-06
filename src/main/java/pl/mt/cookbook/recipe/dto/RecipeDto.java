@@ -46,6 +46,8 @@ public class RecipeDto {
 
     private int likes;
 
+    private List<String> likedByEmail;
+
     @NotEmpty(message = "Należy wybrać co najmniej jedną kategorię")
     private List<Long> categoryIds;
 }

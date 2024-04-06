@@ -8,7 +8,7 @@ import java.util.List;
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findAllByTitleContainingIgnoreCase(String word);
 
-    @Query("SELECT r FROM Recipe r ORDER BY r.likes DESC ")
+    @Query("SELECT r FROM Recipe r ORDER BY SIZE(r.users) DESC")
     List<Recipe> findAllSortedByLikes();
 
     List<Recipe> findAllByIdIn(List<Long> ids);

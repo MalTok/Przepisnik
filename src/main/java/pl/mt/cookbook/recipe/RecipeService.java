@@ -1,6 +1,9 @@
 package pl.mt.cookbook.recipe;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pl.mt.cookbook.category.Category;
 import pl.mt.cookbook.category.CategoryRepository;
@@ -8,6 +11,8 @@ import pl.mt.cookbook.recipe.dto.RecipeDto;
 import pl.mt.cookbook.recipe.dto.RecipeShowDto;
 import pl.mt.cookbook.recipe.mapper.RecipeDtoMapper;
 import pl.mt.cookbook.recipe.mapper.RecipeShowDtoMapper;
+import pl.mt.cookbook.user.User;
+import pl.mt.cookbook.user.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +24,19 @@ public class RecipeService {
     private final CategoryRepository categoryRepository;
     private final RecipeDtoMapper recipeDtoMapper;
     private final RecipeShowDtoMapper recipeShowDtoMapper;
+    private final UserRepository userRepository;
 
     public RecipeService(
             RecipeRepository recipeRepository,
             RecipeDtoMapper recipeDtoMapper,
             CategoryRepository categoryRepository,
-            RecipeShowDtoMapper recipeShowDtoMapper
-    ) {
+            RecipeShowDtoMapper recipeShowDtoMapper,
+            UserRepository userRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeDtoMapper = recipeDtoMapper;
         this.categoryRepository = categoryRepository;
         this.recipeShowDtoMapper = recipeShowDtoMapper;
+        this.userRepository = userRepository;
     }
 
     public Optional<Recipe> find(Long id) {
@@ -66,11 +73,51 @@ public class RecipeService {
     @Transactional
     public void like(Long id) {
         Optional<Recipe> optionalRecipe = find(id);
-        if (optionalRecipe.isPresent()) {
-            Recipe recipe = optionalRecipe.get();
-            int likes = recipe.getLikes() + 1;
-            recipe.setLikes(likes);
-        }
+        optionalRecipe.ifPresent(this::like);
+    }
+
+    private void like(Recipe recipe) {
+        List<User> users = recipe.getUsers();
+        String email = getEmail();
+        addUserToLikesList(email, users);
+    }
+
+    private void addUserToLikesList(String email, List<User> users) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        userOptional.ifPresentOrElse(
+                user -> {
+                    if (!users.contains(user)) {
+                        users.add(user);
+                    }
+                },
+                () -> {
+                    throw new EntityNotFoundException("User not found.");
+                }
+        );
+    }
+
+    private String getEmail() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails.getUsername();
+    }
+
+    @Transactional
+    public void unlike(Long id) {
+        Optional<Recipe> optionalRecipe = find(id);
+        optionalRecipe.ifPresent(this::unlike);
+    }
+
+    private void unlike(Recipe recipe) {
+        List<User> users = recipe.getUsers();
+        String email = getEmail();
+        removeUserFromLikesList(email, users);
+    }
+
+    private void removeUserFromLikesList(String email, List<User> users) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        userOptional
+                .map(users::remove)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public List<RecipeDto> findAllSortedByLikes() {
