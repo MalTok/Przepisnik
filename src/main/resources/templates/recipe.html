@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="main-bar-nav">
-                    <div class="like-button-container">
+                    <div class="recipe-like-button-container">
                         <div>
                             <p class="recipe-likes" th:text="${recipe.likes}"></p>
                         </div>
@@ -52,14 +52,20 @@
                             </a>
                         </div>
                     </div>
-                    <div>
+                    <div th:if="${#authentication.name == recipe.addedByEmail}">
                         <a th:href="@{|/recipe/edit/${recipe.id}|}"><input type="button" value="EDYTUJ"></a>
                     </div>
-                    <div>
+                    <div th:unless="${#authentication.name == recipe.addedByEmail}">
+                        <input type="button" value="EDYTUJ" disabled>
+                    </div>
+                    <div th:if="${#authentication.name == recipe.addedByEmail}">
                         <form th:action="@{|/recipe/delete/${recipe.id}|}" th:method="post">
                             <input type="submit" value="USUŃ"
                                    onclick="return confirm('Czy na pewno chcesz usunąć przepis?')">
                         </form>
+                    </div>
+                    <div th:unless="${#authentication.name == recipe.addedByEmail}">
+                        <input type="submit" value="USUŃ" disabled>
                     </div>
                 </div>
             </div>

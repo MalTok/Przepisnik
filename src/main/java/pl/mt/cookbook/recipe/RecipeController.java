@@ -97,7 +97,7 @@ public class RecipeController {
 
     @GetMapping("/{nickname}/all")
     public String showUserRecipes(Model model, @PathVariable String nickname) {
-        List<RecipeDto> recipeList = recipeService.findAllAddedByUser(nickname);
+        List<RecipeDto> recipeList = recipeService.findAllPublicAddedByUser(nickname);
         if (recipeList.isEmpty()) {
             model.addAttribute("emptyMessage", true);
         }

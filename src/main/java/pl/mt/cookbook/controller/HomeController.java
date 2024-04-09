@@ -19,7 +19,7 @@ class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        List<RecipeDto> recipeList = recipeService.findAll();
+        List<RecipeDto> recipeList = recipeService.findAllPublic();
         if (recipeList.isEmpty()) {
             model.addAttribute("emptyMessage", true);
         }
@@ -30,7 +30,7 @@ class HomeController {
     @GetMapping("/search")
     public String search(@RequestParam String word,
                          Model model) {
-        List<RecipeDto> recipeList = recipeService.findByTitleContainingWord(word);
+        List<RecipeDto> recipeList = recipeService.findByTitleContainingWordIgnoringCase(word);
         if (recipeList.isEmpty()) {
             model.addAttribute("searchMessage", true);
             model.addAttribute("searchedWord", word);
@@ -41,11 +41,21 @@ class HomeController {
 
     @GetMapping("/best")
     public String best(Model model) {
-        List<RecipeDto> recipeList = recipeService.findAllSortedByLikes();
+        List<RecipeDto> recipeList = recipeService.findAllPublicSortedByLikes();
         if (recipeList.isEmpty()) {
             model.addAttribute("emptyMessage", true);
         }
         model.addAttribute("recipeList", recipeList);
         return "best-recipes";
+    }
+
+    @GetMapping("/private")
+    public String privateOnly(Model model) {
+        List<RecipeDto> recipeList = recipeService.findAllPrivateNewestFirst();
+        if (recipeList.isEmpty()) {
+            model.addAttribute("emptyMessage", true);
+        }
+        model.addAttribute("recipeList", recipeList);
+        return "private-recipes";
     }
 }

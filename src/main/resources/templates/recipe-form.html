@@ -70,6 +70,12 @@
                     <input type="text" class="form-control" th:field="*{img}" placeholder="rosol.jpg">
                 </label>
             </div>
+            <div class="mb-3">
+                <label class="form-check-label">
+                    Przepis prywatny? (niewidoczny dla reszty użytkowników)
+                    <input type="checkbox" class="form-check-input" th:field="*{nonPublic}">
+                </label>
+            </div>
             <button class="search-button" type="submit">ZAPISZ</button>
         </form>
     </div>

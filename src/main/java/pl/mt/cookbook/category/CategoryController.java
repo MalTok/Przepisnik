@@ -28,7 +28,7 @@ public class CategoryController {
     public String category(@PathVariable String url, Model model) {
         CategoryPreviewDto categoryPreviewDto = categoryService.findByUrl(url);
         List<Long> recipeIds = categoryPreviewDto.getRecipeIds();
-        List<RecipeDto> recipeList = recipeService.findAllByIdIn(recipeIds);
+        List<RecipeDto> recipeList = recipeService.findAllByIdInWhenPublicOrPrivateAndAddedByEmailIs(recipeIds);
         if (recipeList.isEmpty()) {
             model.addAttribute("categoryMessage", true);
         }

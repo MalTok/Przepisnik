@@ -50,4 +50,6 @@ public class RecipeDto {
 
     @NotEmpty(message = "Należy wybrać co najmniej jedną kategorię")
     private List<Long> categoryIds;
+
+    private boolean nonPublic;
 }

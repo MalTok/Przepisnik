@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pl" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <link th:fragment="bootstrap" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link th:fragment="bootstrap" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link th:fragment="styles-css" rel="stylesheet" type="text/css" href="../static/styles/styles.css" th:href="@{/styles/styles.css}">
+    <link th:fragment="styles-css" rel="stylesheet" type="text/css" href="../static/styles/styles.css"
+          th:href="@{/styles/styles.css}">
 </head>
 <body>
 <header th:fragment="header">
@@ -38,7 +40,8 @@
                     <a th:href="@{/category/remove}" href="/categor/remove"><input type="button" value="USUŃ KATEGORIĘ"></a>
                 </div>
                 <div class="bar-nav-button" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
-                    <a th:href="@{/admin/show-all}" href="/admin/show-all"><input type="button" value="WYŚWIETL UŻYTKOWNIKÓW"></a>
+                    <a th:href="@{/admin/show-all}" href="/admin/show-all"><input type="button"
+                                                                                  value="WYŚWIETL UŻYTKOWNIKÓW"></a>
                 </div>
             </div>
         </div>
@@ -74,10 +77,13 @@
         </div>
         <div class="bar-filter-buttons">
             <div>
-                <a th:href="@{/}" href="/"><input type="button" value="WYŚWIETL WSZYSTKIE"></a>
+                <a th:href="@{/}" href="/"><input type="button" value="WSZYSTKIE PUBLICZNE"></a>
             </div>
             <div>
-                <a th:href="@{/best}" href="/best"><input type="button" value="NAJLEPSZE PRZEPISY"></a>
+                <a th:href="@{/best}" href="/best"><input type="button" value="NAJLEPSZE PUBLICZNE"></a>
+            </div>
+            <div>
+                <a th:href="@{/private}" href="/private"><input type="button" value="PRYWATNE PRZEPISY"></a>
             </div>
             <div th:each="category: ${categories}">
                 <a th:href="@{|/category/${category.url}|}"><input type="button" th:value="${category.name}"></a>
@@ -104,39 +110,48 @@
         <div class="recipe-preview" th:each="recipe: ${recipeList}">
             <div>
                 <a th:href="@{|/recipe/${recipe.id}|}">
-                    <div th:if="${recipe.img == ''}" class="no-photo-container">
+                    <div th:if="${recipe.img == ''}" class="recipe-preview-no-photo-container">
                         <i class="fa-solid fa-bowl-food fa-10x" style="color: #000000;"></i>
                     </div>
                     <div th:unless="${recipe.img == ''}">
-                        <img class="recipe-picture-miniature"
+                        <img class="recipe-preview-picture-miniature"
                              th:src="@{${recipe.img.startsWith('http') ? recipe.img : '/pictures/recipes/' + recipe.img}}"
                              th:alt="|Zdjęcie potrawy ${recipe.title}|">
                     </div>
                 </a>
             </div>
-            <div class="recipe-details-container">
-                <div class="like-button-container">
-                    <div class="like-button-container-box" th:if="${#authentication.isAuthenticated()}">
-                        <div>
-                            <p class="recipe-likes" th:text="${recipe.likes}"></p>
+            <div class="recipe-preview-details-container">
+                <div class="recipe-preview-summary-container">
+                    <div class="recipe-preview-summary-container-inner-box" th:if="${#authentication.isAuthenticated()}">
+                        <div class="recipe-preview-private-icon-container">
+                            <div class="recipe-preview-private-icon" th:if="${recipe.nonPublic}">
+                                <i class="fa-brands fa-product-hunt"></i>
+                            </div>
                         </div>
-                        <div th:unless="${recipe.likedByEmail.contains(#authentication.name)}">
-                            <a th:href="@{|/recipe/like/${recipe.id}|}">
-                                <img class="like-button"
-                                     th:src="@{/pictures/app/like-button.png}" src="/pictures/app/like-button.png"
-                                     alt="Serce w kole na czarnym tle">
-                            </a>
-                        </div>
-                        <div th:if="${recipe.likedByEmail.contains(#authentication.name)}">
-                            <a th:href="@{|/recipe/unlike/${recipe.id}|}">
-                                <img class="like-button"
-                                     th:src="@{/pictures/app/like-button-liked.png}"
-                                     src="/pictures/app/like-button-liked.png" alt="Serce w kole na turkusowym tle">
-                            </a>
+                        <div class="recipe-preview-like-button-container">
+                            <div class="recipe-preview-likes" >
+                                <p th:text="${recipe.likes}"></p>
+                            </div>
+                            <div class="recipe-preview-likes-button">
+                                <div th:unless="${recipe.likedByEmail.contains(#authentication.name)}">
+                                    <a th:href="@{|/recipe/like/${recipe.id}|}">
+                                        <img class="recipe-preview-like-button"
+                                             th:src="@{/pictures/app/like-button.png}" src="/pictures/app/like-button.png"
+                                             alt="Serce w kole na czarnym tle">
+                                    </a>
+                                </div>
+                                <div th:if="${recipe.likedByEmail.contains(#authentication.name)}">
+                                    <a th:href="@{|/recipe/unlike/${recipe.id}|}">
+                                        <img class="recipe-preview-like-button"
+                                             th:src="@{/pictures/app/like-button-liked.png}"
+                                             src="/pictures/app/like-button-liked.png" alt="Serce w kole na turkusowym tle">
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="recipe-name-container">
+                <div class="recipe-preview-name-container">
                     <a th:href="@{|/recipe/${recipe.id}|}">
                         <p th:text="${recipe.title}">Nazwa potrawy</p>
                     </a>
@@ -161,9 +176,11 @@
         </div>
     </div>
 </footer>
-<script th:fragment="bootstrap-script" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+<script th:fragment="bootstrap-script"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-<script th:fragment="fontawesome-script" src="https://kit.fontawesome.com/136cb70485.js" crossorigin="anonymous"></script>
+<script th:fragment="fontawesome-script" src="https://kit.fontawesome.com/136cb70485.js"
+        crossorigin="anonymous"></script>
 </body>
 </html>
