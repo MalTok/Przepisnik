@@ -51,12 +51,17 @@ public class RecipeService {
         return find(id).map(recipeDtoMapper::mapRecipeToDto);
     }
 
-    public List<RecipeDto> findByTitleContainingWord(String word) {
-        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByTitleContainingIgnoreCase(word));
+    public List<RecipeDto> findByTitleContainingWordIgnoringCase(String word) {
+        if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            return recipeDtoMapper.maptoDtos(recipeRepository.findAllByTitleContainingIgnoreCaseAndNonPublicIsFalse(word));
+        } else {
+            String email = getEmail();
+            return recipeDtoMapper.maptoDtos(recipeRepository.findAllByTitleIgnoreCaseIsWhenPublicOrPrivateAndAddedByEmailIs(word, email));
+        }
     }
 
-    public List<RecipeDto> findAll() {
-        return recipeDtoMapper.maptoDtos(recipeRepository.findAll());
+    public List<RecipeDto> findAllPublic() {
+        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByNonPublicIsFalse());
     }
 
     public void delete(Long id) {
@@ -120,8 +125,8 @@ public class RecipeService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public List<RecipeDto> findAllSortedByLikes() {
-        return recipeDtoMapper.maptoDtos(recipeRepository.findAllSortedByLikes());
+    public List<RecipeDto> findAllPublicSortedByLikes() {
+        return recipeDtoMapper.maptoDtos(recipeRepository.findAllPublicSortedByLikes());
     }
 
     @Transactional
@@ -146,11 +151,15 @@ public class RecipeService {
         }
     }
 
-    public List<RecipeDto> findAllByIdIn(List<Long> ids) {
-        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByIdIn(ids));
+    public List<RecipeDto> findAllByIdInWhenPublicOrPrivateAndAddedByEmailIs(List<Long> ids) {
+        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByIdInWhenPublicOrPrivateAndAddedByEmailIs(ids, getEmail()));
     }
 
-    public List<RecipeDto> findAllAddedByUser(String nickname) {
-        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByAddedByNickname(nickname));
+    public List<RecipeDto> findAllPublicAddedByUser(String nickname) {
+        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByAddedByNicknameAndNonPublicIsFalse(nickname));
+    }
+
+    public List<RecipeDto> findAllPrivateNewestFirst() {
+        return recipeDtoMapper.maptoDtos(recipeRepository.findAllByNonPublicIsTrueAndAddedByEmailIsOrderByDateAddedDesc(getEmail()));
     }
 }

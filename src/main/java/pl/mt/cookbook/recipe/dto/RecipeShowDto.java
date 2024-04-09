@@ -31,7 +31,11 @@ public class RecipeShowDto {
 
     private String addedByNickname;
 
+    private String addedByEmail;
+
     private int likes;
 
     private List<String> likedByEmail;
+
+    private boolean nonPublic;
 }

@@ -42,11 +42,15 @@ public class Recipe {
 
     private String addedByNickname;
 
+    private String addedByEmail;
+
     @ManyToMany
     private List<Category> categories = new ArrayList<>();
 
     @ManyToMany
     private List<User> users;
+
+    private boolean nonPublic;
 
     public void addCategory(Category category) {
         categories.add(category);

@@ -49,18 +49,23 @@ public class RecipeDtoMapper {
         recipe.setHints(recipeDto.getHints());
         recipe.setImg(recipeDto.getImg());
         recipe.setDateAdded(LocalDateTime.now());
-        recipe.setAddedByNickname(getNickname());
+        User user = getUser();
+        recipe.setAddedByNickname(user.getNickname());
+        recipe.setAddedByEmail(user.getEmail());
         recipe.setUsers(new ArrayList<>());
+        recipe.setNonPublic(recipeDto.isNonPublic());
         return recipe;
     }
 
-    private String getNickname() {
+    private User getUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
         Optional<User> userOptional = userRepository.findByEmail(email);
-        return userOptional
-                .map(User::getNickname)
-                .orElseThrow(EntityNotFoundException::new);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        } else {
+            throw new EntityNotFoundException("User not found.");
+        }
     }
 
     public List<IngredientAmount> getIngredients(RecipeDto recipeDto, Recipe recipe) {
@@ -105,7 +110,8 @@ public class RecipeDtoMapper {
                 recipe.getDateAdded(),
                 recipe.getUsers().size(),
                 getLikedByUsersList(recipe),
-                getCategoryIdList(recipe)
+                getCategoryIdList(recipe),
+                recipe.isNonPublic()
         );
     }
 

@@ -14,5 +14,7 @@
     <include file="0007-add_column _nickname_to_table_app_user.xml" relativeToChangelogFile="true"/>
     <include file="0008-add_column _added_by_nickname_to_table_recipe.xml" relativeToChangelogFile="true"/>
     <include file="0009-create_table_recipe_user.xml" relativeToChangelogFile="true"/>
+    <include file="0010-add_column_non_public_to_table_recipe.xml" relativeToChangelogFile="true"/>
+    <include file="0011-add_column_added_by_email_to_table_recipe.xml" relativeToChangelogFile="true"/>
     <include file="testdata/testdata.sql" relativeToChangelogFile="true" context="dev"/>
 </databaseChangeLog>

@@ -26,8 +26,10 @@ public class RecipeShowDtoMapper {
         recipeShowDto.setImg(recipe.getImg());
         recipeShowDto.setDateAdded(recipe.getDateAdded());
         recipeShowDto.setAddedByNickname(recipe.getAddedByNickname());
+        recipeShowDto.setAddedByEmail(recipe.getAddedByEmail());
         recipeShowDto.setLikes(getLikesListSize(recipe));
         recipeShowDto.setLikedByEmail(getLikedByUsersList(recipe));
+        recipeShowDto.setNonPublic(recipe.isNonPublic());
         return recipeShowDto;
     }
 
