@@ -6,7 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pl.mt.cookbook.category.Category;
-import pl.mt.cookbook.category.CategoryRepository;
 import pl.mt.cookbook.recipe.dto.RecipeDto;
 import pl.mt.cookbook.recipe.dto.RecipeShowDto;
 import pl.mt.cookbook.recipe.mapper.RecipeDtoMapper;
@@ -14,14 +13,12 @@ import pl.mt.cookbook.recipe.mapper.RecipeShowDtoMapper;
 import pl.mt.cookbook.user.User;
 import pl.mt.cookbook.user.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RecipeService {
     private final RecipeRepository recipeRepository;
-    private final CategoryRepository categoryRepository;
     private final RecipeDtoMapper recipeDtoMapper;
     private final RecipeShowDtoMapper recipeShowDtoMapper;
     private final UserRepository userRepository;
@@ -29,12 +26,10 @@ public class RecipeService {
     public RecipeService(
             RecipeRepository recipeRepository,
             RecipeDtoMapper recipeDtoMapper,
-            CategoryRepository categoryRepository,
             RecipeShowDtoMapper recipeShowDtoMapper,
             UserRepository userRepository) {
         this.recipeRepository = recipeRepository;
         this.recipeDtoMapper = recipeDtoMapper;
-        this.categoryRepository = categoryRepository;
         this.recipeShowDtoMapper = recipeShowDtoMapper;
         this.userRepository = userRepository;
     }
@@ -132,23 +127,21 @@ public class RecipeService {
     @Transactional
     public void update(Long id, RecipeDto recipeDto) {
         Optional<Recipe> optionalRecipe = find(id);
-        if (optionalRecipe.isPresent()) {
-            Recipe recipe = optionalRecipe.get();
-            recipe.setTitle(recipeDto.getTitle());
-            recipe.setDescription(recipeDto.getDescription());
-            recipe.setPortion(recipeDto.getPortion());
-            List<Category> categoryList = new ArrayList<>();
-            for (Long ids : recipeDto.getCategoryIds()) {
-                Optional<Category> byId = categoryRepository.findById(ids);
-                byId.ifPresent(categoryList::add);
-            }
-            recipe.getIngredients().clear();
-            recipeDtoMapper.getIngredients(recipeDto, recipe).forEach(recipe::addIngredientAmount);
-            recipe.setCategories(categoryList);
-            recipe.setPreparation(recipeDto.getPreparation());
-            recipe.setHints(recipeDto.getHints());
-            recipe.setImg(recipeDto.getImg());
-        }
+        optionalRecipe.ifPresent(recipe -> update(recipeDto, recipe));
+    }
+
+    private void update(RecipeDto recipeDto, Recipe recipe) {
+        recipe.setTitle(recipeDto.getTitle());
+        recipe.setDescription(recipeDto.getDescription());
+        recipe.setPortion(recipeDto.getPortion());
+        List<Category> categoryList = recipeDtoMapper.getCategoryList(recipeDto);
+        recipe.getIngredients().clear();
+        recipeDtoMapper.getIngredients(recipeDto, recipe)
+                .forEach(recipe::addIngredientAmount);
+        recipe.setCategories(categoryList);
+        recipe.setPreparation(recipeDto.getPreparation());
+        recipe.setHints(recipeDto.getHints());
+        recipe.setImg(recipeDto.getImg());
     }
 
     public List<RecipeDto> findAllByIdInWhenPublicOrPrivateAndAddedByEmailIs(List<Long> ids) {

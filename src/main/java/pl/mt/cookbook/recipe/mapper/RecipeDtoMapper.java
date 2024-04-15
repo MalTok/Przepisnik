@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeDtoMapper {
@@ -38,11 +39,7 @@ public class RecipeDtoMapper {
         recipe.setTitle(recipeDto.getTitle());
         recipe.setDescription(recipeDto.getDescription());
         recipe.setPortion(recipeDto.getPortion());
-        List<Category> categoryList = new ArrayList<>();
-        for (Long id : recipeDto.getCategoryIds()) {
-            Optional<Category> byId = categoryRepository.findById(id);
-            byId.ifPresent(categoryList::add);
-        }
+        List<Category> categoryList = getCategoryList(recipeDto);
         recipe.setCategories(categoryList);
         getIngredients(recipeDto, recipe).forEach(recipe::addIngredientAmount);
         recipe.setPreparation(recipeDto.getPreparation());
@@ -55,6 +52,15 @@ public class RecipeDtoMapper {
         recipe.setUsers(new ArrayList<>());
         recipe.setNonPublic(recipeDto.isNonPublic());
         return recipe;
+    }
+
+    public List<Category> getCategoryList(RecipeDto recipeDto) {
+        List<Category> categoryList = new ArrayList<>();
+        recipeDto.getCategoryIds()
+                .stream()
+                .map(categoryRepository::findById)
+                .forEach(categoryOptional -> categoryOptional.ifPresent(categoryList::add));
+        return categoryList;
     }
 
     private User getUser() {
@@ -75,7 +81,7 @@ public class RecipeDtoMapper {
         for (String element : ingredientsArray) {
             String[] split = element.split("-");
             Ingredient ingredient = getIngredient(split);
-            IngredientAmount ingredientAmount = new IngredientAmount(recipe, ingredient, split[1]);
+            var ingredientAmount = new IngredientAmount(recipe, ingredient, split[1]);
             ingredient.addIngredientAmount(ingredientAmount);
             list.add(ingredientAmount);
             ingredientRepository.save(ingredient);
@@ -116,22 +122,17 @@ public class RecipeDtoMapper {
     }
 
     private List<Long> getCategoryIdList(Recipe recipe) {
-        List<Long> categoryDtoList = new ArrayList<>();
-        for (Category category : recipe.getCategories()) {
-            categoryDtoList.add(category.getId());
-        }
-        return categoryDtoList;
+        return recipe.getCategories()
+                .stream()
+                .map(Category::getId)
+                .collect(Collectors.toList());
     }
 
     private String getIngredientsOutputFormat(Recipe recipe) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (IngredientAmount ingredientAmount : recipe.getIngredients()) {
-            stringBuilder.append(ingredientAmount.getIngredient().getName())
-                    .append("-")
-                    .append(ingredientAmount.getAmount())
-                    .append(";");
-        }
-        return stringBuilder.toString();
+        return recipe.getIngredients()
+                .stream()
+                .map(ingredientAmount -> ingredientAmount.getIngredient().getName() + "-" + ingredientAmount.getAmount() + ";")
+                .collect(Collectors.joining());
     }
 
     public List<RecipeDto> maptoDtos(List<Recipe> recipeList) {

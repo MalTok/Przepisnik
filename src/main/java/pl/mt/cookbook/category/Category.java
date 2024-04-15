@@ -16,11 +16,16 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String description;
+
     private String img;
+
     @ManyToMany(mappedBy = "categories", cascade = CascadeType.REMOVE)
     private List<Recipe> recipes;
+
     @Column(unique = true)
     private String url;
 

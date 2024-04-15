@@ -9,7 +9,10 @@ import java.util.List;
 @Setter
 public class CategoryPreviewDto {
     private String name;
+
     private String description;
+
     private String img;
+
     private List<Long> recipeIds;
 }

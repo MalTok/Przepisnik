@@ -36,7 +36,7 @@
                 <div class="bar-nav-button">
                     <a th:href="@{/category/add}" href="/categor/add"><input type="button" value="DODAJ KATEGORIĘ"></a>
                 </div>
-                <div class="bar-nav-button">
+                <div class="bar-nav-button" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                     <a th:href="@{/category/remove}" href="/categor/remove"><input type="button" value="USUŃ KATEGORIĘ"></a>
                 </div>
                 <div class="bar-nav-button" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">

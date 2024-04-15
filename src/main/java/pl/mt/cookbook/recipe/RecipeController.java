@@ -27,13 +27,19 @@ public class RecipeController {
     @GetMapping("/{id}")
     public String showRecipe(@PathVariable Long id, Model model) {
         Optional<RecipeShowDto> foundRecipe = recipeService.findAndReturnShowDto(id);
-        if (foundRecipe.isPresent()) {
-            RecipeShowDto recipeShowDto = foundRecipe.get();
+        foundRecipe.ifPresent(recipeShowDto -> {
             List<Long> ingredientIds = recipeShowDto.getIngredientIds();
             List<IngredientAmount> ingredientAmountList = ingredientAmountRepository.findAllByIdIn(ingredientIds);
             model.addAttribute("ingredients", ingredientAmountList);
             model.addAttribute("recipe", recipeShowDto);
-        }
+        });
+//        if (foundRecipe.isPresent()) {
+//            RecipeShowDto recipeShowDto = foundRecipe.get();
+//            List<Long> ingredientIds = recipeShowDto.getIngredientIds();
+//            List<IngredientAmount> ingredientAmountList = ingredientAmountRepository.findAllByIdIn(ingredientIds);
+//            model.addAttribute("ingredients", ingredientAmountList);
+//            model.addAttribute("recipe", recipeShowDto);
+//        }
         return "recipe";
     }
 
@@ -57,10 +63,11 @@ public class RecipeController {
     @GetMapping("/edit/{id}")
     public String editRecipe(@PathVariable Long id, Model model) {
         Optional<RecipeDto> foundRecipe = recipeService.findAndReturnDto(id);
-        if (foundRecipe.isPresent()) {
-            RecipeDto recipeDto = foundRecipe.get();
-            model.addAttribute("recipe", recipeDto);
-        }
+        foundRecipe.ifPresent(recipeDto -> model.addAttribute("recipe", recipeDto));
+//        if (foundRecipe.isPresent()) {
+//            RecipeDto recipeDto = foundRecipe.get();
+//            model.addAttribute("recipe", recipeDto);
+//        }
         return "recipe-form-edit";
     }
 

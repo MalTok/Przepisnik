@@ -26,6 +26,8 @@ public class CategoryAddDtoMapper {
     }
 
     private String createUrl(String name) {
-        return name.toLowerCase().replaceAll(" ", "-");
+        return name
+                .toLowerCase()
+                .replaceAll(" ", "-");
     }
 }

@@ -17,7 +17,9 @@ public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     @OneToMany(mappedBy = "ingredient")
     private List<IngredientAmount> ingredientAmounts = new ArrayList<>();
 

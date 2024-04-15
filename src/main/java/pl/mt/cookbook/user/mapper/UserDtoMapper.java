@@ -27,8 +27,15 @@ public class UserDtoMapper {
         userDto.setEmail(user.getEmail());
         userDto.setPassword(user.getPassword());
         userDto.setNewsletter(user.isNewsletter());
-        userDto.setRoles(user.getRoles().stream().map(userRole -> userRole.getRole().name()).collect(Collectors.toSet()));
+        userDto.setRoles(getRolesNames(user));
         return userDto;
+    }
+
+    private Set<String> getRolesNames(User user) {
+        return user.getRoles()
+                .stream()
+                .map(userRole -> userRole.getRole().name())
+                .collect(Collectors.toSet());
     }
 
     public User map(UserDto userDto) {
@@ -39,9 +46,14 @@ public class UserDtoMapper {
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setNewsletter(userDto.isNewsletter());
-        Set<UserRole> roles = new HashSet<>();
-        roles.add(new UserRole(user, Role.ROLE_USER));
+        Set<UserRole> roles = getUserRoles(user);
         user.setRoles(roles);
         return user;
+    }
+
+    private Set<UserRole> getUserRoles(User user) {
+        Set<UserRole> roles = new HashSet<>();
+        roles.add(new UserRole(user, Role.ROLE_USER));
+        return roles;
     }
 }
