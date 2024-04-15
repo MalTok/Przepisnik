@@ -16,8 +16,11 @@
             <div th:replace="~{fragment::main-bar-text}"></div>
         </div>
     </div>
-    <div th:if="${registrationSuccess}">
-        <p class="success-message" th:text="#{registration_success}"></p>
+    <div class="login-message" th:if="${registrationSuccess}">
+        <p th:text="#{registration_success}"></p>
+    </div>
+    <div class="login-message" th:if="${registrationError}">
+        <p th:text="#{registration_error}"></p>
     </div>
     <i class="fa-solid fa-user-lock fa-5x"></i>
     <form th:action="@{/login}" method="post">
@@ -35,6 +38,9 @@
         </div>
         <button class="search-button" type="submit">ZALOGUJ</button>
     </form>
+    <div>
+        <p>Nie masz konta? <a th:href="@{/register}" href="/register">REJESTRACJA</a></p>
+    </div>
     <footer th:replace="~{fragment::footer}">Stopka</footer>
 </div>
 <script th:replace="~{fragment::bootstrap-script}"></script>

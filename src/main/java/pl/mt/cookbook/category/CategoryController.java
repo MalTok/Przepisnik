@@ -34,7 +34,6 @@ public class CategoryController {
         }
         model.addAttribute("filteredCategory", categoryPreviewDto);
         model.addAttribute("recipeList", recipeList);
-
         return "category-recipes";
     }
 

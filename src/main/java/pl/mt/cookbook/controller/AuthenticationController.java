@@ -34,6 +34,9 @@ public class AuthenticationController {
             boolean saved = userService.save(userAddDto);
             if (saved) {
                 redirectAttributes.addFlashAttribute("registrationSuccess", true);
+            } else {
+                redirectAttributes.addFlashAttribute("registrationError", true);
+
             }
             return "redirect:/login";
         }

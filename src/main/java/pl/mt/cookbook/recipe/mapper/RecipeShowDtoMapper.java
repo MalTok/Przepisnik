@@ -17,9 +17,7 @@ public class RecipeShowDtoMapper {
         recipeShowDto.setTitle(recipe.getTitle());
         recipeShowDto.setDescription(recipe.getDescription());
         recipeShowDto.setPortion(recipe.getPortion());
-        List<Long> ingredients = recipe.getIngredients().stream()
-                .map(IngredientAmount::getId)
-                .toList();
+        List<Long> ingredients = getIngredients(recipe);
         recipeShowDto.setIngredientIds(ingredients);
         recipeShowDto.setPreparation(recipe.getPreparation());
         recipeShowDto.setHints(recipe.getHints());
@@ -31,6 +29,12 @@ public class RecipeShowDtoMapper {
         recipeShowDto.setLikedByEmail(getLikedByUsersList(recipe));
         recipeShowDto.setNonPublic(recipe.isNonPublic());
         return recipeShowDto;
+    }
+
+    private List<Long> getIngredients(Recipe recipe) {
+        return recipe.getIngredients().stream()
+                .map(IngredientAmount::getId)
+                .toList();
     }
 
     private int getLikesListSize(Recipe recipe) {

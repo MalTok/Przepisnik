@@ -14,12 +14,15 @@ public class UserEditPersonalDto {
     @NotBlank
     @Size(min = 2, max = 255)
     private String firstName;
+
     @NotBlank
     @Size(min = 2, max = 255)
     private String lastName;
+
     @NotNull
     @Past
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
+
     private String email;
 }

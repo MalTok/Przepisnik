@@ -376,3 +376,9 @@ textarea {
 i {
     padding-left: 15px;
 }
+
+.login-message {
+    color: #033d48;
+    font-size: larger;
+    font-weight: bold;
+}

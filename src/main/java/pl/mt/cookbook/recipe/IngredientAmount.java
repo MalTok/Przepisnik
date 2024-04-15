@@ -14,10 +14,13 @@ public class IngredientAmount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     private Recipe recipe;
+
     @ManyToOne
     private Ingredient ingredient;
+
     private String amount;
 
     public IngredientAmount(Recipe recipe, Ingredient ingredient, String amount) {

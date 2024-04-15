@@ -11,9 +11,12 @@ public class CategoryAddDto {
     @NotBlank
     @Size(min = 2, max = 255)
     private String name;
+
     @NotBlank
     @Size(min = 2, max = 500)
     private String description;
+
     private String img;
+
     private String url;
 }
