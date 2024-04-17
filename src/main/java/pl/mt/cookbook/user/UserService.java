@@ -19,13 +19,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserDtoMapper userDtoMapper;
     private final UserAddDtoMapper userAddDtoMapper;
+    private final UserCredentialsDtoMapper userCredentialsDtoMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserDtoMapper userDtoMapper, UserAddDtoMapper userAddDtoMapper,
+    public UserService(UserRepository userRepository,
+                       UserDtoMapper userDtoMapper,
+                       UserAddDtoMapper userAddDtoMapper,
+                       UserCredentialsDtoMapper userCredentialsDtoMapper,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userDtoMapper = userDtoMapper;
         this.userAddDtoMapper = userAddDtoMapper;
+        this.userCredentialsDtoMapper = userCredentialsDtoMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -102,7 +107,7 @@ public class UserService {
 
     public Optional<UserCredentialsDto> findCredentialsByEmail(String email) {
         return userRepository.findByEmail(email)
-                .map(UserCredentialsDtoMapper::map);
+                .map(userCredentialsDtoMapper::map);
     }
 
     @Transactional
