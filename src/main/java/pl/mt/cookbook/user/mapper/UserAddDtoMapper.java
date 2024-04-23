@@ -23,6 +23,7 @@ public class UserAddDtoMapper {
         user.setEmail(userAddDto.getEmail());
         user.setPassword(passwordEncoder.encode(userAddDto.getPassword()));
         user.setNewsletter(false);
+        user.setNickname(userAddDto.getNickname());
         Set<UserRole> roles = getUserRolesSet(user);
         user.setRoles(roles);
         return user;

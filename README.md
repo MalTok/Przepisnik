@@ -3,8 +3,8 @@
 # Przepiśnik - personal cookbook web app
 
 > This app is designed to store and manage cooking recipes. More in section [General Info](#general-information).
-> Przepiśnik demo [_here_](https://).
-> Admin panel demo [_here_](https://).
+
+> Przepiśnik demo is [_here_](https://youtu.be/GvRbgYGjStE).
 
 ## Content of project
 
@@ -34,25 +34,23 @@
       <img src="https://img.shields.io/badge/Java-%23F80000?style=for-the-badge&logo=oracle" alt="red button oracle java"/>
     </a> - version 17
   </div>
-
   <div>
     <div>
       <a href="https://maven.apache.org/">
         <img src=" https://img.shields.io/badge/Maven-%23C71A36?style=for-the-badge&logo=apachemaven&logoColor=black" alt="button maven"/>
       </a>
     </div>
+  </div>
   <div>
-    <div>
       <a href="https://www.thymeleaf.org/">
         <img src="https://img.shields.io/badge/Thymeleaf-%23005F0F?style=for-the-badge&logo=thymeleaf" alt="green button thymeleaf"/>
       </a> - version 3.2.0
-    </div>
-    <div>
+  </div>
+  <div>
       <ul>
         <li>Thymeleaf layout dialect - version 3.3.0</li>
         <li>Thymeleaf extras spring security 6 - version 3.1.2</li>
       </ul>
-    </div>
   </div>
   <div>
     <div>
@@ -127,7 +125,7 @@ Ready features:
   <li>ability to find other recipes added by this author by clicking a link</li>
 </ul>
 
-<b>Category:</b>
+<b>Categories:</b>
 
 <ul>
   <li>adding using form, ability to add category photo and short description</li>
@@ -143,7 +141,7 @@ Ready features:
 
 <b>admin / user account with ability to edit some data</b>
 
-<b>admin panel with functions such as: deleting entire categories with recipes, change user roles</b>
+<b>admin panel with functions such as: deleting entire categories with recipes, changing user roles</b>
 
 ## Screenshots
 
@@ -155,18 +153,9 @@ Ready features:
 
 If you want to clone this repo and launch it for example in IntelliJ please write this in command line:
 
-<code>$ git clone https://github.com/MalTok/Przepisnik.git</code>
+<code>$ git clone https://github.com/MalTok/Przepisnik.git </code>
 
-- INSTALLATION
-
-If ou want to download this repository and install it, please make sure that you have Java 17 (or newest) installed on
-your comupter. Also make sure that the enviroment variable PATH is properly set.
-
-Next please download the JAR file <b>przepisnik-0.0.1-SNAPSHOT.jar</b>.
-In command line go to the directory with the JAR file and install it by writing this command:
-<code>$ java -jar przepisnik-0.0.1-SNAPSHOT.jar</code>
-
-After these steps it will be available in your browser at <code>localhost:8080</code>.
+If you would like to launch this code, it will be available in your browser at <code>localhost:8080</code>.
 
 There are two configurations available: dev (default, recommended) and prod (requires MySQL installed).
 
@@ -199,6 +188,7 @@ Room for improvement:
 - Redesign form of ingredients adding
 - Add ability to choose recipe photo strictly from disc
 - Change way of deleting categories by admin (without deleting recipes)
+- JPA queries optimalization
 
 ## Sources
 
