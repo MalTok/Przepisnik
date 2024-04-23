@@ -142,6 +142,7 @@ public class RecipeService {
         recipe.setPreparation(recipeDto.getPreparation());
         recipe.setHints(recipeDto.getHints());
         recipe.setImg(recipeDto.getImg());
+        recipe.setNonPublic(recipeDto.isNonPublic());
     }
 
     public List<RecipeDto> findAllByIdInWhenPublicOrPrivateAndAddedByEmailIs(List<Long> ids) {
